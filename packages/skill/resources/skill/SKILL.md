@@ -14,6 +14,7 @@ Use this skill when the project uses Arrow packages such as `@arrow-js/core`, `@
    - Getting started / scaffold shape: `references/getting-started.md`
    - API surface and package split: `references/api.md`
    - Common patterns and examples: `references/examples.md`
+   - Accessible widget patterns: `references/patterns/` (accordion, tabs, dialog, etc.)
 3. Prefer idiomatic Arrow:
    - `reactive()` for state
    - `html` tagged templates for DOM
@@ -28,6 +29,8 @@ Use this skill when the project uses Arrow packages such as `@arrow-js/core`, `@
 - Pass reactive state directly as component props unless narrowing is clearly needed.
 - Compose views with nested templates and component calls instead of imperative DOM work.
 - Keep no-build Arrow honest. Avoid introducing benchmark-only patterns or unnecessary compiler assumptions.
+- Prefer semantic HTML over ARIA. A `<button>` is always better than `<div role="button">`. No ARIA is better than wrong ARIA.
+- When building interactive widgets (accordion, tabs, dialog, disclosure), read the matching pattern in `references/patterns/` for required ARIA and keyboard interactions.
 - In framework apps, remember the package split:
   - `@arrow-js/core`: reactive state, templates, components, watch
   - `@arrow-js/framework`: render, async component runtime, boundary
@@ -39,3 +42,8 @@ Use this skill when the project uses Arrow packages such as `@arrow-js/core`, `@
 - `references/getting-started.md`
 - `references/api.md`
 - `references/examples.md`
+- `references/patterns/accordion.md`
+- `references/patterns/tabs.md`
+- `references/patterns/dialog.md`
+- `references/patterns/disclosure.md`
+- `references/patterns/alert.md`
