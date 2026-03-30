@@ -1,10 +1,7 @@
 # Tabs
-Accessible tab interface using ARIA roles and Arrow.js reactive state.
 
-## Semantic HTML First
-Note: there is no native HTML tabs element. ARIA roles are required on plain `div` and `button` elements.
+## Example Structure
 
-## Structure
 ```
 div[role=tablist]
   button[role=tab][aria-selected=true][aria-controls=panel-1][tabindex=0]
@@ -15,7 +12,7 @@ div[role=tabpanel][id=panel-2][aria-labelledby=tab-2][hidden]
 
 ## Required ARIA
 
-| attribute | element | value |
+| Attribute | Element | Value |
 |---|---|---|
 | `role="tablist"` | container div | static |
 | `role="tab"` | each tab button | static |
@@ -27,12 +24,12 @@ div[role=tabpanel][id=panel-2][aria-labelledby=tab-2][hidden]
 
 ## Keyboard
 
-| key | behavior |
+| Key | Behavior |
 |---|---|
-| `ArrowLeft` / `ArrowRight` | move focus between tabs |
-| `Home` / `End` | jump to first / last tab |
-| `Enter` / `Space` | activate focused tab (manual activation) |
-| `Tab` | move focus out of tablist into active panel |
+| `ArrowLeft` / `ArrowRight` | Move focus between tabs |
+| `Home` / `End` | Jump to first / last tab |
+| `Enter` / `Space` | Activate focused tab (manual activation) |
+| `Tab` | Move focus out of tablist into active panel |
 
 ## Arrow Implementation
 
@@ -72,11 +69,9 @@ html`
 
 ## Common Mistakes
 
-| mistake | fix |
-|---|---|
-| Missing roving tabindex | Set `tabindex=0` on active tab, `-1` on all others |
-| Using `<a>` instead of `<button>` | Tabs are not links; use `<button role="tab">` |
-| `role="menu"` on container | Use `role="tablist"`; menus have different keyboard semantics |
-| Panels rendered but no `role="tabpanel"` | Add `role="tabpanel"` and `aria-labelledby` to every panel |
+- Set `tabindex=0` on the active tab and `-1` on all others (roving tabindex)
+- Use `<button role="tab">`, not `<a>` — tabs are not links
+- Use `role="tablist"` on the container, not `role="menu"`
+- Add `role="tabpanel"` and `aria-labelledby` to every panel
 
 APG reference: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

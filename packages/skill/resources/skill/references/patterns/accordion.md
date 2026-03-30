@@ -1,8 +1,6 @@
 # Accordion
 
-Vertically stacked headings that reveal/hide associated content panels.
-
-## Structure
+## Example Structure
 
 ```
 h3 > button[aria-expanded][aria-controls] → div[role=region][aria-labelledby]
@@ -55,11 +53,9 @@ html`
 
 ## Common Mistakes
 
-| Mistake | Fix |
-|---|---|
-| `<div>` trigger | Use `<button>` |
-| Missing `aria-expanded` | Add, update reactively |
-| `aria-hidden` on panels | Use `hidden` attribute |
-| No heading wrapper | Wrap button in `<h3>`–`<h6>` |
+- Use `<button>` for the trigger, not `<div>`
+- Add `aria-expanded` and update it reactively
+- Use `hidden` attribute on panels, not `aria-hidden`
+- Wrap each button in a heading element (`<h3>`–`<h6>`)
 
 [APG Reference](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/)

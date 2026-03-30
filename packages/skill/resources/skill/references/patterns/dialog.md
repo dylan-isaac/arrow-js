@@ -1,12 +1,20 @@
 # Dialog (Modal)
 
-A modal overlay that captures focus and blocks interaction with background content until dismissed.
+## Example Structure
 
-## Semantic HTML First
+### Native `<dialog>` (preferred)
 
-Prefer the native `<dialog>` element when possible — it provides built-in modal behavior, focus trapping, and Escape to close. Use `showModal()` / `close()` for free. However, in Arrow sandbox code where `document` access is unavailable, use ARIA roles instead.
+```html
+<dialog id="my-dialog" aria-labelledby="dialog-title">
+  <h2 id="dialog-title">Dialog Title</h2>
+  <p>Dialog content here.</p>
+  <button>Close</button>
+</dialog>
+```
 
-## Structure
+Use `showModal()` / `close()` for free focus trapping, Escape handling, and modal backdrop.
+
+### ARIA fallback (when `<dialog>` is unavailable)
 
 ```
 div[role=dialog][aria-modal=true][aria-labelledby="dialog-title"]
@@ -27,29 +35,39 @@ div[role=dialog][aria-modal=true][aria-labelledby="dialog-title"]
 
 ## Keyboard
 
-- **Escape**: close the dialog
-- **Tab / Shift+Tab**: cycle focus within the dialog (focus trap)
-- **Initial focus**: first focusable element inside, or the dialog container itself
+| Key | Behavior |
+|---|---|
+| Escape | Close the dialog |
+| Tab / Shift+Tab | Cycle focus within the dialog (focus trap) |
+
+Initial focus: first focusable element inside, or the dialog container itself.
 
 ## Arrow Implementation
 
 ```js
-const isOpen = Arrow.state(false);
-const triggerRef = Arrow.ref();
+import { html, reactive } from '@arrow-js/core';
 
-const dialog = Arrow.div(
-  { role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'dlg-title',
-    tabindex: '-1',
-    onkeydown: (e) => { if (e.key === 'Escape') isOpen.set(false); } },
-  Arrow.h2({ id: 'dlg-title' }, 'Dialog Title'),
-  Arrow.p('Dialog content here.'),
-  Arrow.button({ onclick: () => isOpen.set(false) }, 'Close')
-);
+const state = reactive({ open: false });
+let triggerEl = null;
 
-// Show/hide reactively; return focus to trigger on close
-Arrow.effect(() => {
-  if (!isOpen.get()) triggerRef.current?.focus();
-});
+html`
+  <button @click="${() => { triggerEl = document.activeElement; state.open = true; }}">
+    Open Dialog
+  </button>
+  ${() => state.open ? html`
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dlg-title"
+      tabindex="-1"
+      @keydown="${(e) => { if (e.key === 'Escape') { state.open = false; triggerEl?.focus(); } }}"
+    >
+      <h2 id="dlg-title">Dialog Title</h2>
+      <p>Dialog content here.</p>
+      <button @click="${() => { state.open = false; triggerEl?.focus(); }}">Close</button>
+    </div>
+  ` : ''}
+`(document.body);
 ```
 
 > **Focus trap**: Arrow doesn't auto-trap Tab. Implement manually or use a focus-trap library.
@@ -62,6 +80,4 @@ Arrow.effect(() => {
 - Omitting `aria-labelledby` — dialog has no accessible name
 - Not closing on Escape
 
----
-
-APG reference: <https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/>
+APG reference: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
