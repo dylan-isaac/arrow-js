@@ -29,8 +29,14 @@ Use this skill when the project uses Arrow packages such as `@arrow-js/core`, `@
 - Pass reactive state directly as component props unless narrowing is clearly needed.
 - Compose views with nested templates and component calls instead of imperative DOM work.
 - Keep no-build Arrow honest. Avoid introducing benchmark-only patterns or unnecessary compiler assumptions.
-- Prefer semantic HTML over ARIA. A `<button>` is always better than `<div role="button">`. No ARIA is better than wrong ARIA.
 - When building UI, first identify what interactive behaviors are needed (expanding content? modal overlay? dynamic feedback? ...). Then check the **Accessible Patterns** table — if any behavior matches a "When to load" description, read that pattern before implementing.
+
+## Accessibility Principles (always apply)
+
+- **Prefer semantic HTML over ARIA.** A `<button>` is always better than `<div role="button">`. No ARIA is better than wrong ARIA.
+- **Every interactive element needs a visible focus indicator.** Always include `:focus-visible` styles with a clear outline. Never remove focus rings without an equivalent.
+- **Keyboard operation must not require a mouse.** All actions reachable and operable via keyboard alone.
+- **Test with screen reader announcements in mind.** What the browser renders and what AT announces are not the same.
 - In framework apps, remember the package split:
   - `@arrow-js/core`: reactive state, templates, components, watch
   - `@arrow-js/framework`: render, async component runtime, boundary
@@ -41,17 +47,15 @@ Use this skill when the project uses Arrow packages such as `@arrow-js/core`, `@
 
 | Pattern | When to load | File |
 |---|---|---|
-| Accordion | Building sections that expand and collapse to reveal content | `references/patterns/accordion.md` |
+| Accordion | Building multiple expandable sections (FAQ, grouped panels) where several items can open/close independently | `references/patterns/accordion.md` |
 | Tabs | Switching between views where only one panel is visible at a time | `references/patterns/tabs.md` |
 | Dialog | Showing an overlay that blocks interaction with the page behind it | `references/patterns/dialog.md` |
-| Disclosure | Toggling visibility of a single content section | `references/patterns/disclosure.md` |
+| Disclosure | Toggling visibility of a single region via one button (e.g., "Show advanced options") | `references/patterns/disclosure.md` |
 | Alert | Showing dynamic feedback, status updates, or brief notifications | `references/patterns/alert.md` |
 | Tooltip | Adding a supplementary label or description on hover/focus | `references/patterns/tooltip.md` |
 | Combobox | Filtering or selecting from a list while typing in an input | `references/patterns/combobox.md` |
 | Switch | Toggling a setting with immediate effect | `references/patterns/switch.md` |
 | Listbox | Selecting one or more items from a visible list | `references/patterns/listbox.md` |
-
-When loading any pattern file, also read `references/patterns/_principles.md` for cross-cutting accessibility rules.
 
 If no pattern file exists for the widget you're building, fall back to semantic HTML elements, native browser behavior, and universal design principles. The documented patterns guide common tricky cases — they are not an exhaustive list of acceptable UI.
 

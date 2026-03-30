@@ -1,5 +1,7 @@
 # Accordion
 
+Use this pattern (not `<details>/<summary>`) when building accordions. Native disclosure elements lack Arrow Down/Up navigation between triggers and coordinated open/close behavior. Use the custom ARIA approach below.
+
 ## Example Structure
 
 ```
